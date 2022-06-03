@@ -29,7 +29,8 @@ function resizeWindow() {
     container.width = window.innerWidth;
     container.height = window.innerHeight;
 }
-document.body.onresize = resizeWindow();
+document.body.onresize = resizeWindow;
+resizeWindow();
 
 function lockChangeAlert() {
     if (document.pointerLockElement === container || document.mozPointerLockElement === container) {
