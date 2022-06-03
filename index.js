@@ -19,8 +19,16 @@ container.onclick = function() {
 };
 document.addEventListener('pointerlockchange', lockChangeAlert, false);
 document.addEventListener('mozpointerlockchange', lockChangeAlert, false);
+
+var played = false;
 document.body.onmousedown = function() {
     cursor.draw = true;
+    if (performance.now() > 10000 && !played) {
+        played = true;
+        const test = new Audio();
+        test.src = 'test.mp3';
+        test.play();
+    }
 }
 document.body.onmouseup = function() {
     cursor.draw = false;
