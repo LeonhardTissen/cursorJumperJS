@@ -1,10 +1,12 @@
 var container = document.getElementById('container');
+var context = container.getContext('2d');
 
 const cursor = {
     x: 50,
     y: 50,
     xvel: 0,
     yvel: 0,
+    draw: false,
     e: document.getElementById('cursor')
 }
 
@@ -17,6 +19,17 @@ container.onclick = function() {
 };
 document.addEventListener('pointerlockchange', lockChangeAlert, false);
 document.addEventListener('mozpointerlockchange', lockChangeAlert, false);
+document.body.onmousedown = function() {
+    cursor.draw = true;
+}
+document.body.onmouseup = function() {
+    cursor.draw = false;
+}
+function resizeWindow() {
+    container.width = window.innerWidth;
+    container.height = window.innerHeight;
+}
+document.body.onresize = resizeWindow();
 
 function lockChangeAlert() {
     if (document.pointerLockElement === container || document.mozPointerLockElement === container) {
@@ -33,6 +46,14 @@ function updatePosition() {
 
 function physics() {
     cursor.yvel += 0.1
+    if (cursor.draw) { 
+        context.beginPath();
+        context.lineWidth = 3;
+        context.moveTo(cursor.x, cursor.y);
+        context.lineTo(cursor.x + cursor.xvel, cursor.y + cursor.yvel);
+        context.stroke(); 
+    }
+    
     cursor.y += cursor.yvel;
     cursor.x += cursor.xvel;
     if (cursor.y > window.innerHeight - 21) {
